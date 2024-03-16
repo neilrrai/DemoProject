@@ -1,26 +1,67 @@
-// creating Element;
-const subHeading = document.createElement("h3");
+// selecting the element in which the chsnge happened
+const formData = document.querySelector("form");
+const fruitItmes = document.querySelector(".fruits");
 
-// Create text in our element:
-const subHeadingText = document.createTextNode(
-  "Buy high quality organic fruits online"
-);
+// adding action to form and define the function on submit button
+formData.addEventListener("submit", function (event) {
+  event.preventDefault();
 
-// link this text to our element:
-subHeading.appendChild(subHeadingText);
+  //selecting theinput Element
+  const fruitToAdd = document.getElementById("fruit-to-add");
 
-//Insert the element in the HTML in selected div at it's last position.
+  // create the 'li' tag
+  const newLi = document.createElement("li");
+  // newLi.innerHTML = fruitToAdd.value + '<button class="delete-btn">x</button>'; // this single line can do all the work from line19 line34.
 
-const divs = document.getElementsByTagName("div"); // getting the collections of all the div
-const firstDiv = divs[0]; // selecting the div in which we want to insert our element.
-firstDiv.appendChild(subHeading);
-subHeading.style.fontStyle = "italic";
+  // added input value to li tag as text.
+  const newLiText = document.createTextNode(fruitToAdd.value);
 
-const para = document.createElement("p");
-const paraText = document.createTextNode("Total fruits: 4");
-para.appendChild(paraText);
-const secondDiv = divs[1];
-// insert our element before the div other child:insertBefore(a,b);a=> element want to insert; b=>that element before you want to insert your element;
-const fruitsList = document.querySelector(".fruits"); //selected the "b"
-secondDiv.insertBefore(para, fruitsList);
-para.id = "fruits-total";
+  //link li with li text
+  newLi.appendChild(newLiText);
+  // adding class to our li tag
+  newLi.className = "fruit";
+  // creating button tag
+  const detelBtn = document.createElement("button");
+  // again the button tag text
+  const detelBtnText = document.createTextNode("x");
+
+  // link bitton to button text
+  detelBtn.appendChild(detelBtnText);
+  // adding class to botton
+  detelBtn.className = "delete-btn";
+  //  now adding this button to our li tag as child
+  newLi.appendChild(detelBtn);
+  // console.log(newLi);
+
+  // same adding edit button when we add new item:
+  const editBtn = document.createElement("button");
+  const editBtnText = document.createTextNode("Edit");
+  editBtn.appendChild(editBtnText);
+  editBtn.className = "edit-btn";
+  newLi.appendChild(editBtn);
+
+  // now the final li tag added to final tag which we selected in line 2.
+  fruitItmes.appendChild(newLi);
+});
+
+// detting action Delet button in items:
+fruitItmes.addEventListener("click", function (event) {
+  if (event.target.classList.contains("delete-btn")) {
+    // here I targeting the only when our class is same as delet button's class.
+    // get the parent of button where we click
+
+    const fruitToDelete = event.target.parentElement;
+    fruitItmes.removeChild(fruitToDelete);
+  }
+});
+// adding Edit button:
+
+const editBtn = document.createElement("button");
+const editBtnText = document.createTextNode("Edit");
+editBtn.appendChild(editBtnText);
+editBtn.className = "edit-btn";
+// fruitList[2].appendChild(editBtn);
+const fruitList = document.querySelectorAll(".fruit");
+fruitList.forEach((item) => {
+  item.appendChild(editBtn.cloneNode(true));
+});
